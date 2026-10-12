@@ -1,0 +1,83 @@
+[ng-cloak] { display: none !important; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 28px 14px;
+  font-family: Arial, sans-serif;
+  color: #263445;
+  background: #eef2f7;
+}
+
+.card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 26px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(25, 45, 70, 0.08);
+}
+
+.auth-card { max-width: 430px; margin-top: 35px; }
+
+h1 { color: #234b78; font-size: 25px; margin-top: 0; }
+h2 { color: #234b78; font-size: 20px; }
+
+label { display: block; margin-top: 10px; font-weight: bold; font-size: 14px; }
+
+input {
+  width: 100%;
+  padding: 11px;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  border: 1px solid #ccd4df;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+input:focus { outline: 2px solid #c4ddf8; border-color: #2878c8; }
+
+button {
+  padding: 10px 14px;
+  margin: 7px 4px 7px 0;
+  color: white;
+  background: #2878c8;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover { opacity: 0.92; }
+button.secondary { background: #667085; }
+button.danger { background: #c93636; }
+a { color: #2878c8; }
+
+.message { color: #14743a; min-height: 18px; }
+.error { color: #c62828; }
+
+.topbar, .list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.topbar p { margin-top: -8px; }
+.form-section { padding: 16px 0 20px; border-bottom: 1px solid #e3e8ef; margin-bottom: 20px; }
+.form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.search { max-width: 250px; }
+
+.table-wrap { width: 100%; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+th, td { padding: 11px; text-align: left; border: 1px solid #dce2e9; }
+th { color: white; background: #234b78; }
+tbody tr:nth-child(even) { background: #f7f9fc; }
+.actions { min-width: 150px; }
+
+@media (max-width: 650px) {
+  .form-grid { grid-template-columns: 1fr; gap: 0; }
+  .card { padding: 17px; }
+  body { padding: 12px 8px; }
+}

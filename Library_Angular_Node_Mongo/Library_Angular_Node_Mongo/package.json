@@ -1,0 +1,14 @@
+{
+  "name": "library-angular-node-mongo",
+  "version": "1.0.0",
+  "description": "Basic Library Management lab application using AngularJS, Node.js and MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
+  }
+}

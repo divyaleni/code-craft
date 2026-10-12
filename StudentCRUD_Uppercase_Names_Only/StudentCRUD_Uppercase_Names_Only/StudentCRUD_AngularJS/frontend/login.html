@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp" ng-cloak>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Student CRUD</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="app.js"></script>
+  <script src="auth-controller.js"></script>
+</head>
+<body ng-controller="LoginController">
+  <main class="card auth-card">
+    <h1>Student Management</h1>
+    <h2>Login</h2>
+    <form ng-submit="login()">
+      <label for="email">Email</label>
+      <input id="email" type="email" ng-model="user.email" placeholder="Enter email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" ng-model="user.password" placeholder="Enter password" autocomplete="current-password" required>
+      <button type="submit" ng-disabled="loading">{{ loading ? 'Logging in...' : 'Login' }}</button>
+    </form>
+    <p class="message" ng-if="message" ng-bind="message" ng-class="{'error': isError}"></p>
+    <p>New user? <a href="register.html">Register here</a></p>
+  </main>
+</body>
+</html>

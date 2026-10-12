@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background: white;
+            padding: 30px;
+            width: 320px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0002;
+        }
+        h2 { text-align: center; color: #50b1d7; }
+        label { display: block; margin-top: 15px; }
+        input, select, button {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 11px;
+            margin-top: 7px;
+        }
+        button {
+            background: #1a378c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #volunteerStatusField { display: none; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Student Login</h2>
+
+        <label for="loginType">Login Type</label>
+        <select id="loginType">
+            <option value="donor">Faculty</option>
+            <option value="volunteer">Student</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <div id="volunteerStatusField">
+            <label for="volunteerStatus">Student Status</label>
+            <select id="volunteerStatus">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="email"
+               placeholder="Enter your email">
+
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password"
+               placeholder="Enter your password">
+
+        <button id="loginSubmitBtn" onclick="login()">
+            Login
+        </button>
+    </div>
+
+    <script>
+        const loginType = document.getElementById("loginType");
+        const volunteerField =
+            document.getElementById("volunteerStatusField");
+
+        loginType.addEventListener("change", function () {
+            volunteerField.style.display =
+                this.value === "volunteer" ? "block" : "none";
+        });
+
+        function login() {
+            const email =
+                document.getElementById("loginEmail").value.trim();
+            const password =
+                document.getElementById("loginPassword").value;
+
+            if (email === "") {
+                alert("Please enter your email address.");
+                return;
+            }
+
+            if (password === "") {
+                alert("Please enter your password.");
+                return;
+            }
+
+            // Demo credentials for this lab experiment only
+            if (email === "test@example.com" &&
+                password === "Test123") {
+                alert("Login successful");
+            } else {
+                alert("Invalid username or password");
+            }
+        }
+    </script>
+</body>
+</html>
