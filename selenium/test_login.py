@@ -1,19 +1,15 @@
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from pathlib import Path
 
-# Open Chrome
 driver = webdriver.Chrome()
 driver.maximize_window()
 
 try:
-    # Open our local login application
     page = (Path(__file__).resolve().parent / "login.html").as_uri()
     driver.get(page)
 
-    # 1. Interface Testing
     assert driver.find_element(By.ID, "loginType").is_displayed()
     assert driver.find_element(By.ID, "loginEmail").is_displayed()
     assert driver.find_element(By.ID, "loginPassword").is_displayed()
@@ -24,7 +20,6 @@ try:
     password = driver.find_element(By.ID, "loginPassword")
     button = driver.find_element(By.ID, "loginSubmitBtn")
 
-    # 2. Functional Testing - Empty email
     email.clear()
     password.clear()
     button.click()
@@ -36,7 +31,6 @@ try:
     assert message == "Please enter your email address."
     print("Empty-field functional test passed")
 
-    # 3. Negative Functional Testing
     email.send_keys("invalid@example.com")
     password.send_keys("wrongpassword")
     button.click()
@@ -48,7 +42,6 @@ try:
     assert message == "Invalid username or password"
     print("Invalid login test passed")
 
-    # 4. Usability Testing - Select Volunteer
     select = Select(driver.find_element(By.ID, "loginType"))
     select.select_by_value("volunteer")
 
@@ -57,8 +50,6 @@ try:
     ).is_displayed()
 
     print("Usability test passed")
-
-    # 5. Positive Functional Testing
     driver.find_element(By.ID, "loginType").click()
     select.select_by_value("donor")
 

@@ -21,8 +21,6 @@ app.factory("AuthFactory", function () {
         }
     };
 });
-
-// Service: all backend requests are handled here.
 app.service("StudentService", function ($http, API_URL, AuthFactory) {
     function authConfig() {
         var token = AuthFactory.getToken();
@@ -55,8 +53,6 @@ app.service("StudentService", function ($http, API_URL, AuthFactory) {
         return $http.delete(API_URL + "/students/" + id, authConfig());
     };
 });
-
-// Custom filter: display every student name in uppercase.
 app.filter("uppercaseName", function () {
     return function (input) {
         if (!input) return "";
