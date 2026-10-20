@@ -1,0 +1,170 @@
+
+[ng-cloak] {
+  display: none !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 25px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background: #f5f7fa;
+}
+
+.card {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.auth-card {
+  max-width: 430px;
+  margin: 35px auto;
+}
+
+h1, h2 {
+  color: #2878c8;
+}
+
+h1 {
+  font-size: 26px;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 11px;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background: white;
+}
+
+input:focus {
+  outline: 1px solid #2878c8;
+  border-color: #2878c8;
+}
+
+button {
+  padding: 10px 14px;
+  margin: 7px 4px 7px 0;
+  color: white;
+  background: #2878c8;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1f65a8;
+}
+
+button.secondary,
+button.danger {
+  background: #2878c8;
+}
+
+a {
+  color: #2878c8;
+}
+
+.message,
+.error {
+  min-height: 18px;
+}
+
+.topbar,
+.list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.topbar p {
+  margin-top: -8px;
+}
+
+.form-section {
+  padding: 16px 0 20px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.search {
+  max-width: 250px;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: white;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  color: white;
+  background: #2878c8;
+}
+
+tbody tr:nth-child(even) {
+  background: #f5f7fa;
+}
+
+.actions {
+  min-width: 150px;
+}
+
+@media (max-width: 650px) {
+  body {
+    padding: 15px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+}

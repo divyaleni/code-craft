@@ -1,8 +1,5 @@
 var app = angular.module("studentApp", []);
-
 app.constant("API_URL", "http://localhost:5000/api");
-
-// Factory: keeps login token and username in one place.
 app.factory("AuthFactory", function () {
     var TOKEN_KEY = "studentToken";
     var USER_KEY = "studentUser";
