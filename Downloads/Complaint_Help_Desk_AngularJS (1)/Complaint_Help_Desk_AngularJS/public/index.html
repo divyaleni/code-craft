@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="helpDeskApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complaint Help Desk</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="app.js"></script>
+</head>
+<body ng-controller="TicketController">
+  <div class="container">
+    <header>
+      <h1>Complaint Help Desk</h1>
+      <p>Raise a complaint and check its status.</p>
+    </header>
+
+    <section class="panel">
+      <h2>{{ editingId ? 'Edit Ticket' : 'Raise a Ticket' }}</h2>
+      <form ng-submit="saveTicket()">
+        <label>Title</label>
+        <input type="text" ng-model="form.title" placeholder="Enter complaint title" required>
+
+        <label>Category</label>
+        <input type="text" ng-model="form.category" placeholder="Enter category" required>
+
+        <label>Priority</label>
+        <select ng-model="form.priority">
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+
+        <div class="actions">
+          <button type="submit">{{ editingId ? 'Update Ticket' : 'Submit Ticket' }}</button>
+          <button class="secondary" type="button" ng-click="resetForm()" ng-if="editingId">Cancel</button>
+        </div>
+      </form>
+      <p class="message" ng-if="message">{{ message }}</p>
+      <p class="error" ng-if="error">{{ error }}</p>
+    </section>
+
+    <section class="panel">
+      <h2>Ticket List</h2>
+      <label>Filter by status</label>
+      <select ng-model="statusFilter">
+        <option value="">All Tickets</option>
+        <option value="Open">Open Tickets</option>
+        <option value="Closed">Closed Tickets</option>
+      </select>
+
+      <p ng-if="loading">Loading tickets...</p>
+      <p ng-if="!loading && filteredTickets().length === 0">No tickets found.</p>
+
+      <div class="ticket" ng-repeat="ticket in filteredTickets() track by ticket._id">
+        <div class="ticket-top">
+          <h3>{{ ticket.title }}</h3>
+          <span class="status" ng-class="ticket.status.toLowerCase()">{{ ticket.status }}</span>
+        </div>
+        <p><strong>Category:</strong> {{ ticket.category }}</p>
+        <p><strong>Priority:</strong> {{ ticket.priority }}</p>
+        <div class="actions">
+          <button type="button" ng-click="editTicket(ticket)">Edit</button>
+          <button type="button" class="secondary" ng-if="ticket.status === 'Open'" ng-click="closeTicket(ticket)">Close</button>
+          <button type="button" class="secondary" ng-if="ticket.status === 'Closed'" ng-click="reopenTicket(ticket)">Reopen</button>
+          <button type="button" class="danger" ng-click="deleteTicket(ticket)">Delete</button>
+        </div>
+      </div>
+    </section>
+    <footer>Simple Student Project · AngularJS + Node.js + MongoDB</footer>
+  </div>
+</body>
+</html>

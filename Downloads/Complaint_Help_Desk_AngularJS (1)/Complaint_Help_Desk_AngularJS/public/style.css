@@ -1,0 +1,82 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f4f7;
+  color: #222;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+header {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  padding: 18px;
+  margin-bottom: 16px;
+  border-radius: 5px;
+}
+h1 { margin: 0 0 8px; font-size: 26px; }
+header p { margin: 0; color: #555; }
+.panel {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+h2 { font-size: 20px; margin-top: 0; }
+label {
+  display: block;
+  margin: 12px 0 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+input, select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  background: white;
+  font-size: 14px;
+}
+button {
+  padding: 8px 12px;
+  border: 1px solid #245a8d;
+  background: #2f6fae;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 4px 4px 0 0;
+}
+button:hover { background: #245a8d; }
+button.secondary { background: #666; border-color: #555; }
+button.danger { background: #a63838; border-color: #8c2c2c; }
+.actions { margin-top: 10px; }
+.ticket {
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 4px;
+  background: #fff;
+}
+.ticket h3 { margin: 0; font-size: 17px; }
+.ticket p { margin: 8px 0; }
+.ticket-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.status {
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.status.open { background: #fff0c2; color: #775400; }
+.status.closed { background: #d9f0dc; color: #21652b; }
+.message { color: #21652b; }
+.error { color: #a00000; }
+footer { text-align: center; color: #666; font-size: 12px; padding: 8px; }
