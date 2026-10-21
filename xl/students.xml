@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE students [
+    <!ELEMENT students (student+)>
+    <!ELEMENT student (name, department, mark)>
+    <!ELEMENT name (#PCDATA)>
+    <!ELEMENT department (#PCDATA)>
+    <!ELEMENT mark (#PCDATA)>
+]>
+<students>
+    <student>
+        <name>Arun</name>
+        <department>IT</department>
+        <mark>85</mark>
+    </student>
+    <student>
+        <name>Priya</name>
+        <department>CSE</department>
+        <mark>90</mark>
+    </student>
+</students>

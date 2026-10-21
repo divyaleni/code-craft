@@ -1,0 +1,655 @@
+app.js
+------
+
+var app = angular.module("studentApp", ["ngAnimate"]);
+
+app.constant("API_URL", "http://localhost:5000/api");
+
+app.factory("AuthFactory", function () {
+    var TOKEN_KEY = "studentToken";
+    var USER_KEY = "studentUser";
+
+    return {
+        saveSession: function (token, userName) {
+            localStorage.setItem(TOKEN_KEY, token);
+            localStorage.setItem(USER_KEY, userName || "Student");
+        },
+
+        getToken: function () {
+            return localStorage.getItem(TOKEN_KEY);
+        },
+
+        getUserName: function () {
+            return localStorage.getItem(USER_KEY) || "Student";
+        },
+
+        clearSession: function () {
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem(USER_KEY);
+        }
+    };
+});
+app.service("StudentService", function ($http, API_URL, AuthFactory) {
+
+    function authConfig() {
+        var token = AuthFactory.getToken();
+
+        return {
+            headers: token
+                ? { Authorization: "Bearer " + token }
+                : {}
+        };
+    }
+    this.register = function (user) {
+        return $http.post(API_URL + "/auth/register", user);
+    };
+    this.login = function (user) {
+        return $http.post(API_URL + "/auth/login", user);
+    };
+    this.getStudents = function () {
+        return $http.get(API_URL + "/students", authConfig());
+    };
+    this.addStudent = function (student) {
+        return $http.post(API_URL + "/students", student, authConfig());
+    };
+    this.updateStudent = function (id, student) {
+        return $http.put(
+            API_URL + "/students/" + id,
+            student,
+            authConfig()
+        );
+    };
+    this.deleteStudent = function (id) {
+        return $http.delete(
+            API_URL + "/students/" + id,
+            authConfig()
+        );
+    };
+});
+app.filter("uppercaseName", function () {
+    return function (input) {
+        if (!input) {
+            return "";
+        }
+
+        return String(input).toUpperCase();
+    };
+});
+app.directive("myMessage", function () {
+    return {
+        restrict: "A",
+        template: "<p>Hello! Welcome to Student Management System.</p>"
+    };
+});
+
+-----------
+dashboard.html
+
+
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp" ng-cloak>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Student Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+
+    <!-- Application files -->
+    <script src="app.js"></script>
+    <script src="dashboard-controller.js"></script>
+</head>
+
+<body ng-controller="DashboardController">
+
+    <main class="container">
+
+        <!-- Header -->
+        <header class="topbar">
+            <div>
+                <h1>Student Management System</h1>
+                <p>Welcome, <strong>{{ userName }}</strong>!</p>
+            </div>
+
+            <button type="button" class="secondary" ng-click="logout()">
+                Logout
+            </button>
+        </header>
+
+        <!-- Custom directive -->
+        <div my-message class="welcome-message"></div>
+
+        <!-- Add or Update Student -->
+        <section class="form-section">
+            <h2>{{ editMode ? 'Update Student' : 'Add Student' }}</h2>
+
+            <form ng-submit="saveStudent()">
+                <div class="form-grid">
+
+                    <div>
+                        <label for="studentName">Student Name</label>
+                        <input
+                            id="studentName"
+                            type="text"
+                            ng-model="student.name"
+                            placeholder="Enter student name"
+                            required>
+                        <small>
+                            Preview: {{ student.name | uppercaseName }}
+                        </small>
+                    </div>
+
+                    <div>
+                        <label for="studentEmail">Email</label>
+                        <input
+                            id="studentEmail"
+                            type="email"
+                            ng-model="student.email"
+                            placeholder="Enter email address"
+                            required>
+                    </div>
+
+                    <div>
+                        <label for="studentDepartment">Department</label>
+                        <input
+                            id="studentDepartment"
+                            type="text"
+                            ng-model="student.department"
+                            placeholder="Enter department"
+                            required>
+                    </div>
+
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" ng-disabled="loading">
+                        {{ editMode ? 'Update Student' : 'Add Student' }}
+                    </button>
+
+                    <button
+                        type="button"
+                        class="secondary"
+                        ng-if="editMode"
+                        ng-click="clearForm()">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+
+            <p
+                class="message"
+                ng-if="message"
+                ng-class="{ 'error': isError }">
+                {{ message }}
+            </p>
+        </section>
+
+        <!-- Student List -->
+        <section class="student-section">
+
+            <div class="list-heading">
+                <h2>Student Details</h2>
+
+                <input
+                    class="search"
+                    type="text"
+                    ng-model="searchText"
+                    placeholder="Search students...">
+            </div>
+
+            <p class="total">
+                Total Students: <strong>{{ students.length }}</strong>
+            </p>
+
+            <p class="loading" ng-if="loading">
+                Loading student records...
+            </p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr
+                            class="student-row"
+                            ng-repeat="s in students | filter:searchText track by s._id">
+
+                            <td>{{ $index + 1 }}</td>
+
+                            <td student-highlight>
+                                {{ s.name | uppercaseName }}
+                            </td>
+
+                            <td>{{ s.email }}</td>
+
+                            <td>{{ s.department }}</td>
+
+                            <td class="actions">
+                                <button
+                                    type="button"
+                                    class="edit-btn"
+                                    ng-click="editStudent(s)">
+                                    Edit
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="danger"
+                                    ng-click="deleteStudent(s._id)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr ng-if="!loading && students.length === 0">
+                            <td colspan="5" class="empty">
+                                No student records found.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        
+
+    </main>
+
+</body>
+</html>
+-------------
+style.css
+
+
+/* Hide AngularJS content before it loads */
+[ng-cloak] {
+    display: none !important;
+}
+
+/* Basic page styling */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background: #f5f7fa;
+}
+
+/* Main container */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Headings */
+h1 {
+    margin: 0 0 10px;
+    color: #2878c8;
+    font-size: 28px;
+}
+
+h2 {
+    margin-top: 0;
+    color: #2878c8;
+    font-size: 21px;
+}
+
+p {
+    line-height: 1.5;
+}
+
+/* Header */
+.topbar,
+.list-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.topbar {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.topbar p {
+    margin-bottom: 0;
+}
+
+/* Welcome directive */
+.welcome-message {
+    margin: 15px 0;
+    padding: 10px 14px;
+    color: #1f5f96;
+    background: #e8f3ff;
+    border-left: 4px solid #2878c8;
+    border-radius: 4px;
+}
+
+/* Form section */
+.form-section {
+    margin-bottom: 25px;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 11px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: 1px solid #2878c8;
+    border-color: #2878c8;
+}
+
+small {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Buttons */
+button {
+    padding: 10px 14px;
+    margin: 5px 5px 5px 0;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background: #2878c8;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #1f65a8;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button.secondary {
+    background: #687786;
+}
+
+button.secondary:hover {
+    background: #4c5965;
+}
+
+button.danger {
+    background: #d94343;
+}
+
+button.danger:hover {
+    background: #b52f2f;
+}
+
+button.edit-btn {
+    background: #21865a;
+}
+
+button.edit-btn:hover {
+    background: #176b47;
+}
+
+/* Messages */
+.message {
+    margin-top: 12px;
+    color: #21865a;
+}
+
+.message.error,
+.error {
+    color: #d32f2f;
+}
+
+/* Student table */
+.student-section {
+    margin-top: 20px;
+}
+
+.search {
+    max-width: 260px;
+    margin-bottom: 0;
+}
+
+.total {
+    margin: 12px 0;
+}
+
+.loading {
+    color: #2878c8;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    margin-top: 12px;
+    border-collapse: collapse;
+    background: white;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    color: white;
+    background: #2878c8;
+}
+
+tbody tr:nth-child(even) {
+    background: #f0f5fa;
+}
+
+td[student-highlight] {
+    cursor: pointer;
+}
+
+td[student-highlight]:hover {
+    color: #2878c8;
+    font-weight: bold;
+}
+
+.actions {
+    min-width: 150px;
+    white-space: nowrap;
+}
+
+.empty {
+    text-align: center;
+    color: #777;
+    padding: 20px;
+}
+
+/* Add-row animation using Angular Animate */
+.student-row.ng-enter {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.student-row.ng-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Footer */
+footer {
+    margin-top: 30px;
+    padding: 15px 0;
+    border-top: 1px solid #ddd;
+    color: #777;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* Mobile screen */
+@media (max-width: 700px) {
+    body {
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+
+    .search {
+        max-width: 100%;
+    }
+
+    th,
+    td {
+        padding: 9px;
+        font-size: 13px;
+    }
+}
+
+/* Student row animation */
+.student-row.ng-enter {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.student-row.ng-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.8s ease-in-out;
+}
+
+/* Animation when a student row is removed */
+.student-row.ng-leave {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.student-row.ng-leave-active {
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.8s ease-in-out;
+}
+------------
+login.html
+
+
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp" ng-cloak>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Login - Student Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Load AngularJS first -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <!-- Required by app.js because it uses ngAnimate -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+
+    <!-- Load application files in order -->
+    <script src="app.js"></script>
+    <script src="auth-controller.js"></script>
+</head>
+
+<body ng-controller="LoginController">
+
+    <main class="card auth-card">
+
+        <h1>Student Management System</h1>
+        <h2>Login</h2>
+
+        <form ng-submit="login()">
+
+            <label for="email">Email</label>
+            <input
+                id="email"
+                type="email"
+                ng-model="user.email"
+                placeholder="Enter your email"
+                autocomplete="username"
+                required>
+
+            <label for="password">Password</label>
+            <input
+                id="password"
+                type="password"
+                ng-model="user.password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required>
+
+            <button type="submit" ng-disabled="loading">
+                {{ loading ? 'Logging in...' : 'Login' }}
+            </button>
+
+        </form>
+
+        <p
+            class="message"
+            ng-if="message"
+            ng-class="{ 'error': isError }">
+            {{ message }}
+        </p>
+
+        <p>
+            New user?
+            <a href="register.html">Register here</a>
+        </p>
+
+    </main>
+
+</body>
+</html>

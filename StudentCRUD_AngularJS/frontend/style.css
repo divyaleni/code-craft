@@ -1,0 +1,264 @@
+[ng-cloak] {
+    display: none !important;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background: #f5f7fa;
+}
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin: 0 0 10px;
+    color: #2878c8;
+    font-size: 28px;
+}
+
+h2 {
+    margin-top: 0;
+    color: #2878c8;
+    font-size: 21px;
+}
+
+p {
+    line-height: 1.5;
+}
+
+.topbar,
+.list-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.topbar {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.topbar p {
+    margin-bottom: 0;
+}
+.welcome-message {
+    margin: 15px 0;
+    padding: 10px 14px;
+    color: #1f5f96;
+    background: #e8f3ff;
+    border-left: 4px solid #2878c8;
+    border-radius: 4px;
+}
+
+.form-section {
+    margin-bottom: 25px;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 11px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: 1px solid #2878c8;
+    border-color: #2878c8;
+}
+
+small {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+button {
+    padding: 10px 14px;
+    margin: 5px 5px 5px 0;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background: #2878c8;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #1f65a8;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button.secondary {
+    background: #687786;
+}
+
+button.secondary:hover {
+    background: #4c5965;
+}
+
+button.danger {
+    background: #d94343;
+}
+
+button.danger:hover {
+    background: #b52f2f;
+}
+
+button.edit-btn {
+    background: #21865a;
+}
+
+button.edit-btn:hover {
+    background: #176b47;
+}
+.message {
+    margin-top: 12px;
+    color: #21865a;
+}
+
+.message.error,
+.error {
+    color: #d32f2f;
+}
+
+.student-section {
+    margin-top: 20px;
+}
+
+.search {
+    max-width: 260px;
+    margin-bottom: 0;
+}
+
+.total {
+    margin: 12px 0;
+}
+
+.loading {
+    color: #2878c8;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    margin-top: 12px;
+    border-collapse: collapse;
+    background: white;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    color: white;
+    background: #2878c8;
+}
+
+tbody tr:nth-child(even) {
+    background: #f0f5fa;
+}
+
+td[student-highlight] {
+    cursor: pointer;
+}
+
+td[student-highlight]:hover {
+    color: #2878c8;
+    font-weight: bold;
+}
+
+.actions {
+    min-width: 150px;
+    white-space: nowrap;
+}
+
+.empty {
+    text-align: center;
+    color: #777;
+    padding: 20px;
+}
+
+.student-row.ng-enter {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.student-row.ng-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+footer {
+    margin-top: 30px;
+    padding: 15px 0;
+    border-top: 1px solid #ddd;
+    color: #777;
+    text-align: center;
+    font-size: 13px;
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+
+    .search {
+        max-width: 100%;
+    }
+
+    th,
+    td {
+        padding: 9px;
+        font-size: 13px;
+    }
+}

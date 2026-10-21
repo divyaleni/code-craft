@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE books SYSTEM "books.dtd">
+<books>
+    <book>
+        <title>Web Technologies</title>
+        <author>Godbole</author>
+        <price>650</price>
+    </book>
+    <book>
+        <title>Angular Projects</title>
+        <author>Aristeidis Bampakos</author>
+        <price>1200</price>
+    </book>
+</books>
